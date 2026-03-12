@@ -106,8 +106,6 @@ Step-by-Step Guide for Judges
    - Navigate to the Learning tab.
    - Select one of your language courses.
    - Do the learning quizzes.
-   - Press the microphone to record your own pronunciation.
-   - Wait a few seconds for our Python AI Engine to analyze your voice and return a similarity score!
 
 ---
 
