@@ -12,24 +12,33 @@ By nurturing virtual pets, native speakers contribute audio pronunciations, whil
 - [UI/UX Prototype](https://www.figma.com/proto/9NbVWXm3bbE3eAaMcn7mNM/UI-UX-LINGUPET?node-id=99-1762&t=YtN8oShGdpKLPjhL-1&scaling=scale-down&content-scaling=responsive&page-id=1%3A15493&starting-point-node-id=121%3A2878)
 - [Figma Design](https://www.figma.com/design/9NbVWXm3bbE3eAaMcn7mNM/UI-UX-LINGUPET?node-id=1-15493&t=HUBWAlRzhGBjbO9v-1)
 - **Demo Video**
-- [Live API Deployment](https://api-lingupet.onrender.com)
+- **Live API Deployment:**
+  - [Backend API](https://api-lingupet.onrender.com)
+  - [AI Service](https://ai-engine-service.onrender.com/docs)
 
 ---
 
-## 🎯 The Problem & Our Solution
+## 🌍 1. General Description
 
-Many local dialects and indigenous languages lack sufficient digital documentation and audio datasets, making them invisible to massive AI models.
+### What Our Project Does
 
-**LinguPet** solves this by turning language preservation into a collaborative game:
+LinguPet is an innovative platform designed to preserve endangered indigenous and local languages across ASEAN through crowdsourcing and gamification. By nurturing virtual pets, native speakers contribute audio pronunciations, while language learners use these community-validated recordings and our AI audio processing engine to practice and perfect their speaking skills.
 
-1. **Gap Analysis (The Hungry Pet):** The system automatically detects missing audio translations compared to a baseline language and prompts native speakers to contribute.
+### SDG Addressed
 
-2. **Community Validation:** Audio contributions are peer-reviewed. Approved audios help the virtual pet evolve.
-3. **AI-Assisted Learning:** Learners practice speaking by mimicking the validated audio. Our localized AI engine compares their pronunciation wave-forms with the native speaker's audio, providing instant similarity scores.
+**Goal 11: Sustainable Cities and Communities**
+LinguPet directly addresses **Target 11.4** (_"Strengthen efforts to protect and safeguard the world's cultural and natural heritage"_). Language is a fundamental pillar of cultural identity. As communities urbanize and modernize, local dialects risk extinction. LinguPet ensures these languages are digitally documented, preserved, and passed down to future generations, fostering inclusive and culturally sustainable societies.
+
+### Target Users
+
+1. **Native Speakers (Contributors):** Locals, elders, or cultural enthusiasts looking for an engaging way to digitize and preserve their mother tongue.
+2. **Language Learners:** Students, expatriates, tourists, or descendants of indigenous communities wanting to learn authentic local dialects with real-time AI pronunciation feedback.
 
 ---
 
-## 🛠️ Technology Stack
+## ⚙️ 2. Setup Instructions
+
+### 🛠️ Technology Stack
 
 This project utilizes a modern, decoupled microservices architecture.
 
@@ -39,24 +48,7 @@ This project utilizes a modern, decoupled microservices architecture.
 - **Database & File Storage:** PostgreSQL, Cloudinary
 - **Deployment & Infrastructure:** Render
 
----
-
-## 📂 Repository Structure
-
-This repository follows a monorepo structure to house all microservices and frontend code in one place for easy review and deployment.
-
-```text
-lingupet-hackathon/
-├── frontend/             # Flutter mobile application codebase
-├── backend/              # Express.js core API, Auth, and Prisma configurations
-├── ai-service/           # FastAPI Python engine for audio signal processing
-├── .gitignore
-└── README.md             # Project documentation and links
-```
-
----
-
-## 🚀 Getting Started (Local Development)
+### How to Install & Run (Local Development)
 
 ### 1. Core Backend Setup
 
@@ -77,6 +69,8 @@ Navigate to the AI service directory and start the FastAPI server.
 
 ```Bash
 cd ai-service
+python -m venv venv
+source venv/bin/activate # (Or venv\Scripts\activate on Windows)
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
@@ -91,21 +85,55 @@ flutter pub get
 flutter run
 ```
 
+## 🎮 3. How to Interact with Prototype
+
+Step-by-Step Guide for Judges
+
+1. **Access the Prototype:** Download and install the provided APK on an Android device, or run the Flutter frontend locally.
+
+2. **Onboarding:** Create a new account or log in using the provided test credentials:
+
+   ```text
+   email: judge@hackathon.com | password: judge123.
+   ```
+
+3. **Act as a Contributor (Feed the Pet):**
+   - Navigate to the **Home** tab.
+   - You will see a "Quick Feed" button.
+   - Type in the local word, click the microphone icon, record the suggested word, and submit it to feed and evolve the pet.
+
+4. **Act as a Learner**
+   - Navigate to the Learning tab.
+   - Select one of your language courses.
+   - Do the learning quizzes.
+   - Press the microphone to record your own pronunciation.
+   - Wait a few seconds for our Python AI Engine to analyze your voice and return a similarity score!
+
 ---
 
-## ☁️ Deployment Guide
+## 🧪 Test Cases
 
-The backend API and database are deployed on Render. Since this is a monorepo, the deployment is configured as follows:
+For technical judges reviewing our backend and AI engine via Postman or Swagger UI:
 
-```bash
-Build Command: npm install && npm run build
+### Test Case 1: AI Audio Similarity (FastDTW Engine)
 
-Start Command: npm start
+- **Endpoint:** `POST https://ai-engine-service.onrender.com/docs`
 
-Root Directory: backend (This ensures Render only builds the Express.js API portion of the repository).
-```
+- **Action:** Upload two identical audio files (.wav).
 
----
+- **Expected Result:** The engine successfully processes the MFCCs and returns a similarity_score close to 100.
+
+- **Action 2:** Upload two completely different audio words.
+
+- **Expected Result:** The engine returns a drastically lower similarity_score.
+
+### Test Case 2: Secure Authentication
+
+- **Endpoint:** `POST https://api-lingupet.onrender.com/api/auth/register`
+
+- **Action:** Attempt to register a user with an email that already exists in the database.
+
+- **Expected Result:** Returns a 400 Bad Request with the message "Username atau Email sudah terdaftar!", demonstrating proper database validation.
 
 ## 👥 Meet the Team
 
@@ -114,3 +142,5 @@ Root Directory: backend (This ensures Render only builds the Express.js API port
 - **Rafi Maisshadiq** – Backend & AI Engineer
 - **Toni Wildan Akhta** - Technical Writer
 - **Zikry Kurniawan** – Frontend & Mobile Developer
+
+_Built with passion for Borneo HackWknd 2026_
