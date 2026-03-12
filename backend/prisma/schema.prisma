@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 1. Tabel Users
+model User {
+  id                        Int            @id @default(autoincrement())
+  username                  String         @unique
+  email                     String         @unique
+  password                  String
+  role                      Role           @default(LEARNER)
+
+  // Relasi One-to-Many ke Contributions
+  contributions             Contribution[]
+}
+
+enum Role {
+  LEARNER
+  CONTRIBUTOR
+  REVIEWER
+}
+
+// 2. Tabel Languages (Target Bahasa ASEAN)
+model Language {
+  id            Int            @id @default(autoincrement())
+  name          String         @unique // misal: "Tagalog", "Sunda"
+  is_baseline   Boolean        @default(false)
+  pet_exp       Int            @default(0)
+  pet_level     Int            @default(1) // Level 1 (Telur) sampai 4 (Dewasa)
+
+  // Relasi
+  language_words LanguageWord[]
+}
+
+// 3. Tabel MasterWords (Kamus Utama / Baseline)
+model MasterWord {
+  id             Int            @id @default(autoincrement())
+  word_text      String         // misal: "Terima kasih"
+  category       String         // misal: "Sapaan"
+
+  // Relasi
+  language_words LanguageWord[]
+}
+
+// 4. Tabel LanguageWords (Jembatan / Quest Data)
+model LanguageWord {
+  id              Int            @id @default(autoincrement())
+  language_id     Int
+  master_word_id  Int
+  translated_text String?        // misal: "Salamat"
+  audio_url       String?
+  status          WordStatus     @default(EMPTY)
+
+  // Relasi
+  language      Language       @relation(fields: [language_id], references: [id])
+  master_word   MasterWord     @relation(fields: [master_word_id], references: [id])
+  contributions Contribution[]
+}
+
+enum WordStatus {
+  EMPTY
+  NEEDS_AUDIO
+  COMPLETED
+}
+
+// 5. Tabel Contributions (Sistem Quest/Bounty)
+model Contribution {
+  id                  Int                @id @default(autoincrement())
+  user_id             Int
+  language_word_id    Int
+  submitted_audio_url String
+  status              ContributionStatus @default(PENDING)
+  upvotes             Int                @default(0)
+
+  // Relasi
+  user          User         @relation(fields: [user_id], references: [id])
+  language_word LanguageWord @relation(fields: [language_word_id], references: [id])
+}
+
+enum ContributionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
