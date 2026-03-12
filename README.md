@@ -12,7 +12,7 @@ By nurturing virtual pets, native speakers contribute audio pronunciations, whil
 - [UI/UX Prototype](https://www.figma.com/proto/9NbVWXm3bbE3eAaMcn7mNM/UI-UX-LINGUPET?node-id=99-1762&t=YtN8oShGdpKLPjhL-1&scaling=scale-down&content-scaling=responsive&page-id=1%3A15493&starting-point-node-id=121%3A2878)
 - [Figma Design](https://www.figma.com/design/9NbVWXm3bbE3eAaMcn7mNM/UI-UX-LINGUPET?node-id=1-15493&t=HUBWAlRzhGBjbO9v-1)
 - **Demo Video**
-- **Live API Deployment**
+- [Live API Deployment](https://api-lingupet.onrender.com)
 
 ---
 
